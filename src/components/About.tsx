@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FaHtml5, FaCss3Alt, FaReact } from "react-icons/fa";
+import { FaHtml5, FaCss3Alt, FaReact, FaGithub } from "react-icons/fa";
 import { SiJavascript, SiTailwindcss } from "react-icons/si";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -22,6 +22,7 @@ const About = () => {
       icon: <SiTailwindcss className="inline-block mr-2" />,
     },
     { name: "React.js", icon: <FaReact className="inline-block mr-2" /> },
+    { name: "Github", icon: <FaGithub className="inline-block mr-2" /> },
   ];
 
   // GSAP Animations
@@ -124,8 +125,12 @@ const About = () => {
             to push creative boundaries while maintaining functional precision.
           </p>
 
+          <h2 className="about-animate mt-10 text-center md:text-left text-lg sm:text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-300">
+            Technologies I Use
+          </h2>
+
           {/* Tech Highlights */}
-          <div className="about-animate flex flex-wrap gap-3 justify-center md:justify-start pt-6">
+          <div className="about-animate flex flex-wrap gap-3 justify-center md:justify-start pt-2">
             {skills.map((skill) => (
               <span
                 key={skill.name}

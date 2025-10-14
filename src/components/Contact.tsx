@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "./ui/button";
 import emailjs from "@emailjs/browser";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from "react-hot-toast";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -20,7 +19,9 @@ const ContactSection = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // GSAP animations
+  const isMobile = window.innerWidth < 640;
+
+  // GSAP animation
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(sectionRef.current, {
@@ -51,7 +52,11 @@ const ContactSection = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+
     const { name, email, message } = formData;
 
     if (!name || !email || !message) {
@@ -62,7 +67,6 @@ const ContactSection = () => {
     setLoading(true);
 
     try {
-      // Send to your email
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
@@ -70,7 +74,6 @@ const ContactSection = () => {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
-      // Auto-reply to user
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID,
@@ -92,82 +95,89 @@ const ContactSection = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-background via-black to-background py-24 sm:py-32"
+      className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-background via-black to-background py-24sm:py-24 px-4"
     >
-      {/* Toast Container */}
-      <ToastContainer
+      {/* React Hot Toast */}
+      <Toaster
         position="bottom-right"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        pauseOnHover
-        draggable
-        theme="dark"
-        style={{ bottom: "250px" }}
+        containerStyle={{ bottom: "100px" }} // moves it 100px higher from the bottom
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#1f1f1f",
+            color: "#fff",
+            fontSize: "0.95rem",
+            borderRadius: "12px",
+            padding: "10px 14px",
+          },
+        }}
       />
 
       {/* Header */}
-      <div className="container mx-auto px-4 sm:px-6 relative z-10 text-center mb-12">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-300 mb-6">
+      <div className="container mx-auto px-2 sm:px-6 relative z-10 text-center mb-10 sm:mb-12">
+        <h1 className="text-3xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-300 mb-4 sm:mb-6 leading-tight">
           Let's Connect
         </h1>
-        <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
-          I'm always open to discussing new projects, creative ideas, or opportunities to collaborate. Send me a message!
+        <p className="text-base sm:text-lg text-muted-foreground max-w-lg sm:max-w-2xl mx-auto px-2">
+          I'm always open to discussing new projects, creative ideas, or
+          opportunities to collaborate. Send me a message!
         </p>
       </div>
 
       {/* Form */}
       <div
+        id="contact-form"
         ref={formRef}
-        className="w-full max-w-2xl bg-background/20 backdrop-blur-lg p-6 sm:p-10 rounded-3xl shadow-2xl flex flex-col gap-5"
+        className="w-full max-w-md sm:max-w-2xl bg-background/20 backdrop-blur-lg p-5 sm:p-10 rounded-3xl shadow-2xl flex flex-col gap-4 sm:gap-5 scroll-mt-32"
       >
-        {/* Name */}
         <div className="flex flex-col">
-          <label className="mb-2 text-white font-semibold">Full Name</label>
+          <label className="mb-1 sm:mb-2 text-white font-semibold text-sm sm:text-base">
+            Full Name
+          </label>
           <input
             type="text"
             name="name"
             placeholder="John Doe"
             value={formData.name}
             onChange={handleChange}
-            className="w-full p-4 rounded-xl bg-transparent text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-400 focus:ring-0 transition-all"
+            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-500 focus:ring-0 hover:border-purple-500 transition-none text-sm sm:text-base"
           />
         </div>
 
-        {/* Email */}
         <div className="flex flex-col">
-          <label className="mb-2 text-white font-semibold">Email Address</label>
+          <label className="mb-1 sm:mb-2 text-white font-semibold text-sm sm:text-base">
+            Email Address
+          </label>
           <input
             type="email"
             name="email"
             placeholder="johndoe@example.com"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-4 rounded-xl bg-transparent text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-400 focus:ring-0 transition-all"
+            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-500 focus:ring-0 hover:border-purple-500 transition-none text-sm sm:text-base"
           />
         </div>
 
-        {/* Message */}
         <div className="flex flex-col">
-          <label className="mb-2 text-white font-semibold">Message</label>
+          <label className="mb-1 sm:mb-2 text-white font-semibold text-sm sm:text-base">
+            Message
+          </label>
           <textarea
             name="message"
             placeholder="Write your message here..."
             value={formData.message}
             onChange={handleChange}
-            className="w-full p-4 rounded-xl bg-transparent text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-400 focus:ring-0 transition-all resize-none h-40 sm:h-48"
+            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-500 focus:ring-0 hover:border-purple-500 transition-none resize-none h-32 sm:h-48 text-sm sm:text-base"
           />
         </div>
 
-        {/* Submit */}
         <Button
           size="lg"
           onClick={handleSendMessage}
           disabled={loading}
-          className="w-full p-5 text-lg border-2 border-purple-500 text-purple-400 bg-transparent hover:bg-purple-500/20 hover:shadow-[0_0_35px_rgba(139,92,246,0.7)] transition-all duration-300"
+          className="w-full py-3 sm:py-5 text-base sm:text-lg border-2 border-purple-500 text-purple-400 bg-transparent hover:bg-purple-500/20 hover:shadow-[0_0_35px_rgba(139,92,246,0.7)] transition-all duration-300 rounded-xl"
         >
-          Send Message
+          {loading ? "Sending..." : "Send Message"}
         </Button>
       </div>
     </section>
