@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 222 47% 5%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 189 94% 43%;
+    --primary-foreground: 222 47% 5%;
+    --primary-glow: 189 94% 63%;
+
+    --secondary: 271 91% 65%;
+    --secondary-foreground: 222 47% 5%;
+
+    --muted: 222 47% 12%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 189 94% 43%;
+    --accent-foreground: 222 47% 5%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 47% 15%;
+    --input: 222 47% 15%;
+    --ring: 189 94% 43%;
+
+    --radius: 0.75rem;
+
+    --gradient-primary: linear-gradient(135deg, hsl(189 94% 43%), hsl(271 91% 65%));
+    --gradient-subtle: linear-gradient(180deg, hsl(222 47% 5%), hsl(222 47% 8%));
+    --shadow-glow: 0 0 40px hsl(189 94% 43% / 0.3);
+    --shadow-glow-hover: 0 0 60px hsl(189 94% 43% / 0.5);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .glow-hover:hover {
+    box-shadow: var(--shadow-glow-hover);
+  }
+
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 3D Effects */
+  .perspective-text {
+    perspective: 1000px;
+  }
+
+  .hover-3d {
+    transition: transform 0.3s ease;
+  }
+
+  .hover-3d:hover {
+    transform: rotateY(5deg) rotateX(5deg) translateZ(20px);
+  }
+
+  .floating-3d-element {
+    animation: float-3d 6s ease-in-out infinite;
+  }
+
+  .floating-delay-1 {
+    animation-delay: 0s;
+  }
+
+  .floating-delay-2 {
+    animation-delay: 1.5s;
+  }
+
+  .floating-delay-3 {
+    animation-delay: 3s;
+  }
+
+  .floating-delay-4 {
+    animation-delay: 4.5s;
+  }
+
+  @keyframes float-3d {
+    0%, 100% {
+      transform: translateY(0) translateZ(0) rotateZ(0deg);
+    }
+    25% {
+      transform: translateY(-20px) translateZ(30px) rotateZ(5deg);
+    }
+    50% {
+      transform: translateY(0) translateZ(60px) rotateZ(0deg);
+    }
+    75% {
+      transform: translateY(20px) translateZ(30px) rotateZ(-5deg);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
