@@ -183,3 +183,7 @@ All colors MUST be HSL.
   touch-action: manipulation !important;
   z-index: 10;
 }
+
+.fade-in {
+  will-change: opacity, transform;
+}
