@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FaHtml5, FaCss3Alt, FaReact, FaGithub } from "react-icons/fa";
+import { FaHtml5, FaCss3Alt, FaReact, FaCodeBranch, FaGit } from "react-icons/fa";
 import { SiJavascript, SiTailwindcss } from "react-icons/si";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -22,7 +22,7 @@ const About = () => {
       icon: <SiTailwindcss className="inline-block mr-2" />,
     },
     { name: "React.js", icon: <FaReact className="inline-block mr-2" /> },
-    { name: "Github", icon: <FaGithub className="inline-block mr-2" /> },
+    { name: "Git", icon: <FaCodeBranch className="inline-block mr-2" /> },
   ];
 
   // GSAP Animations
@@ -95,7 +95,7 @@ const About = () => {
       <div className="relative z-10 container mx-auto px-6 flex flex-col md:flex-row items-center gap-20">
         {/* Left: Text */}
         <div className="flex-1 text-center md:text-left max-w-2xl space-y-10">
-          <h2 className="about-animate text-5xl sm:text-6xl font-extrabold text-gradient">
+          <h2 className="about-animate text-4xl sm:text-6xl font-extrabold text-gradient">
             About Me
           </h2>
 
@@ -149,7 +149,7 @@ const About = () => {
           className="flex-shrink-0 w-full md:w-1/2 flex justify-center md:justify-end"
         >
           <div
-            className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(139,92,246,0.4)] border border-white/10 bg-background/50 backdrop-blur-lg"
+            className="relative w-85 h-85 sm:w-96 sm:h-96 rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(139,92,246,0.4)] border border-white/10 bg-background/50 backdrop-blur-lg"
             style={{ transformStyle: "preserve-3d" }}
           >
             <img

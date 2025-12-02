@@ -11,15 +11,6 @@ export const projects = [
     video: "/assets/project/project0.mp4",
   },
   {
-    title: "Portfolio",
-    description:
-      "My old personal portfolio website showcasing my projects, skills, and experience. No longer in use due to performance issues.",
-    tags: ["React", "Tailwind CSS", "Three.js"],
-    link: "https://astkout.vercel.app/",
-    github: "https://github.com/astkout/tindog",
-    video: "/assets/project/project6.mp4",
-  },
-  {
     title: "FINACE.",
     description:
       "A financial management platform mock-up to provide personalized insights and recommendations.",

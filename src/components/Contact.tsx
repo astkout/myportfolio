@@ -1,187 +1,168 @@
-import { useState, useRef, useEffect } from "react";
-import { Button } from "./ui/button";
-import emailjs from "@emailjs/browser";
-import toast, { Toaster } from "react-hot-toast";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { FaHtml5, FaCss3Alt, FaReact, FaGithub } from "react-icons/fa";
+import { SiJavascript, SiTailwindcss } from "react-icons/si";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ContactSection = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLDivElement>(null);
+const About = () => {
+  const aboutRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const skills = [
+    { name: "HTML", icon: <FaHtml5 className="inline-block mr-2" /> },
+    { name: "CSS", icon: <FaCss3Alt className="inline-block mr-2" /> },
+    {
+      name: "JavaScript",
+      icon: <SiJavascript className="inline-block mr-2" />,
+    },
+    {
+      name: "Tailwind CSS",
+      icon: <SiTailwindcss className="inline-block mr-2" />,
+    },
+    { name: "React.js", icon: <FaReact className="inline-block mr-2" /> },
+    { name: "Github", icon: <FaGithub className="inline-block mr-2" /> },
+  ];
 
-  const [loading, setLoading] = useState(false);
-
-  const isMobile = window.innerWidth < 640;
-
-  // GSAP animation
+  // GSAP Animations
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(sectionRef.current, {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: "power3.out",
-      });
+      // Text fade-up animation
+      gsap.fromTo(
+        ".about-animate",
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.25,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: aboutRef.current,
+            start: "top 80%",
+          },
+        }
+      );
 
-      gsap.from(formRef.current, {
-        x: -50,
-        opacity: 0,
-        duration: 1,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: formRef.current,
-          start: "top 80%",
-        },
-      });
-    }, sectionRef);
+      // Image soft entrance
+      gsap.fromTo(
+        imageRef.current,
+        { opacity: 0, scale: 0.9, rotateY: 10 },
+        {
+          opacity: 1,
+          scale: 1,
+          rotateY: 0,
+          duration: 1.4,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: imageRef.current,
+            start: "top 85%",
+          },
+        }
+      );
+    }, aboutRef);
 
     return () => ctx.revert();
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSendMessage = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-
-    const { name, email, message } = formData;
-
-    if (!name || !email || !message) {
-      toast.error("Please fill in all fields!");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        { name, email, message },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
-
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID,
-        { name, email },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
-
-      toast.success("Message sent successfully!");
-      setFormData({ name: "", email: "", message: "" });
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to send message. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Subtle parallax
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 10;
+      const y = -(e.clientY / window.innerHeight - 0.5) * 10;
+      gsap.to(imageRef.current, {
+        rotationY: x,
+        rotationX: y,
+        transformPerspective: 1000,
+        ease: "power2.out",
+        duration: 0.5,
+      });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
     <section
-      id="contact"
-      ref={sectionRef}
-      className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-background via-black to-background py-24sm:py-24 px-4"
+      id="about"
+      ref={aboutRef}
+      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-black to-background overflow-hidden py-28 sm:py-36 lg:py-44"
     >
-      {/* React Hot Toast */}
-      <Toaster
-        position="bottom-right"
-        containerStyle={{ bottom: "100px" }} // moves it 100px higher from the bottom
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: "#1f1f1f",
-            color: "#fff",
-            fontSize: "0.95rem",
-            borderRadius: "12px",
-            padding: "10px 14px",
-          },
-        }}
-      />
+      {/* Subtle Accent Glow */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10 blur-3xl opacity-40 pointer-events-none" />
 
-      {/* Header */}
-      <div className="container mx-auto px-2 sm:px-6 relative z-10 text-center mb-10 sm:mb-12">
-        <h1 className="text-3xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-300 mb-4 sm:mb-6 leading-tight">
-          Let's Connect
-        </h1>
-        <p className="text-base sm:text-lg text-muted-foreground max-w-lg sm:max-w-2xl mx-auto px-2">
-          I'm always open to discussing new projects, creative ideas, or
-          opportunities to collaborate. Send me a message!
-        </p>
-      </div>
+      <div className="relative z-10 container mx-auto px-6 flex flex-col md:flex-row items-center gap-20">
+        {/* Left: Text */}
+        <div className="flex-1 text-center md:text-left max-w-2xl space-y-10">
+          <h2 className="about-animate text-5xl sm:text-6xl font-extrabold text-gradient">
+            About Me
+          </h2>
 
-      {/* Form */}
-      <div
-        id="contact-form"
-        ref={formRef}
-        className="w-full max-w-md sm:max-w-2xl bg-background/20 backdrop-blur-lg p-5 sm:p-10 rounded-3xl shadow-2xl flex flex-col gap-4 sm:gap-5 scroll-mt-32"
-      >
-        <div className="flex flex-col">
-          <label className="mb-1 sm:mb-2 text-white font-semibold text-sm sm:text-base">
-            Full Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            placeholder="John Doe"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-500 focus:ring-0 hover:border-purple-500 transition-none text-sm sm:text-base"
-          />
+          <p className="about-animate text-lg sm:text-xl text-muted-foreground leading-relaxed">
+            I’m{" "}
+            <span className="text-gradient font-semibold">
+              Asterios Koutoulidis
+            </span>
+            , a passionate front-end developer focused on transforming ideas
+            into immersive digital experiences that merge design and technology.
+          </p>
+
+          <p className="about-animate text-lg sm:text-xl text-muted-foreground leading-relaxed">
+            With a strong eye for{" "}
+            <span className="text-gradient font-semibold">
+              modern, minimal design
+            </span>{" "}
+            and a drive for clean, efficient code, I aim to create projects that
+            feel as smooth as they look.
+          </p>
+
+          <p className="about-animate text-lg sm:text-xl text-muted-foreground leading-relaxed">
+            I’m constantly exploring{" "}
+            <span className="text-gradient font-semibold">
+              motion, 3D, and emerging web technologies
+            </span>{" "}
+            to push creative boundaries while maintaining functional precision.
+          </p>
+
+          <h2 className="about-animate mt-10 text-center md:text-left text-lg sm:text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-300">
+            Technologies I Use
+          </h2>
+
+          {/* Tech Highlights */}
+          <div className="about-animate flex flex-wrap gap-3 justify-center md:justify-start pt-2">
+            {skills.map((skill) => (
+              <span
+                key={skill.name}
+                className="flex items-center px-5 py-2 text-sm font-medium text-primary bg-primary/10 rounded-full border border-primary/10 hover:bg-primary/20 transition-all duration-300"
+              >
+                {skill.icon}
+                {skill.name}
+              </span>
+            ))}
+          </div>
         </div>
 
-        <div className="flex flex-col">
-          <label className="mb-1 sm:mb-2 text-white font-semibold text-sm sm:text-base">
-            Email Address
-          </label>
-          <input
-            type="email"
-            name="email"
-            placeholder="johndoe@example.com"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-500 focus:ring-0 hover:border-purple-500 transition-none text-sm sm:text-base"
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label className="mb-1 sm:mb-2 text-white font-semibold text-sm sm:text-base">
-            Message
-          </label>
-          <textarea
-            name="message"
-            placeholder="Write your message here..."
-            value={formData.message}
-            onChange={handleChange}
-            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-500 focus:ring-0 hover:border-purple-500 transition-none resize-none h-32 sm:h-48 text-sm sm:text-base"
-          />
-        </div>
-
-        <Button
-          size="lg"
-          onClick={handleSendMessage}
-          disabled={loading}
-          className="w-full py-3 sm:py-5 text-base sm:text-lg border-2 border-purple-500 text-purple-400 bg-transparent hover:bg-purple-500/20 hover:shadow-[0_0_35px_rgba(139,92,246,0.7)] transition-all duration-300 rounded-xl"
+        {/* Right: Profile Image */}
+        <div
+          ref={imageRef}
+          className="flex-shrink-0 w-full md:w-1/2 flex justify-center md:justify-end"
         >
-          {loading ? "Sending..." : "Send Message"}
-        </Button>
+          <div
+            className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(139,92,246,0.4)] border border-white/10 bg-background/50 backdrop-blur-lg"
+            style={{ transformStyle: "preserve-3d" }}
+          >
+            <img
+              src="/assets/grid1.png"
+              alt="Profile"
+              className="w-full h-full object-cover select-none opacity-90"
+              loading="lazy"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
 };
 
-export default ContactSection;
+export default About;
