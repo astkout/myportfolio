@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FaHtml5, FaCss3Alt, FaReact, FaGithub } from "react-icons/fa";
+import { FaHtml5, FaCss3Alt, FaReact, FaGit } from "react-icons/fa";
 import { SiJavascript, SiTailwindcss } from "react-icons/si";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -22,7 +22,7 @@ const About = () => {
       icon: <SiTailwindcss className="inline-block mr-2" />,
     },
     { name: "React.js", icon: <FaReact className="inline-block mr-2" /> },
-    { name: "Github", icon: <FaGithub className="inline-block mr-2" /> },
+    { name: "Github", icon: <FaGit className="inline-block mr-2" /> },
   ];
 
   // GSAP Animations
