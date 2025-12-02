@@ -41,7 +41,7 @@ export const projects = [
     title: "Medicare",
     description:
       "A modern healthcare website template designed for clinics and medical professionals.",
-    tags: ["React", "GSAP", "TailwindCSS"],
+    tags: ["React", "TailwindCSS"],
     link: "https://medicare-iota-one.vercel.app/",
     github: "https://github.com/astkout/medicare",
     video: "/assets/project/project3.mp4",
