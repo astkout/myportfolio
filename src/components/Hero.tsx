@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { ArrowDown } from "lucide-react";
 import { Button } from "./ui/button";
-import HeroSpline from "./HeroSpline"; // loads immediately
+import HeroSpline from "./HeroSpline";
 import gsap from "gsap";
 import HeroTyping from "./HeroTyping";
 
