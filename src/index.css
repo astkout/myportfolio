@@ -187,3 +187,12 @@ All colors MUST be HSL.
 .fade-in {
   will-change: opacity, transform;
 }
+
+.swiper-pagination-bullet {
+              background-color: #a855f7; 
+              opacity: 0.5;            
+              opacity: 1;
+            }
+            .swiper-pagination-bullet-active {
+              background-color: var(--primary);
+            }
