@@ -19,11 +19,11 @@ const ContactSection = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const isMobile = window.innerWidth < 640;
-
-  // GSAP animation
+  // GSAP Animations
   useEffect(() => {
     const ctx = gsap.context(() => {
+      if (!sectionRef.current || !formRef.current) return;
+
       gsap.from(sectionRef.current, {
         opacity: 0,
         y: 50,
@@ -53,7 +53,7 @@ const ContactSection = () => {
   };
 
   const handleSendMessage = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
 
@@ -95,12 +95,12 @@ const ContactSection = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-background via-black to-background py-24sm:py-24 px-4"
+      className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-background via-black to-background py-24 px-4"
     >
-      {/* React Hot Toast */}
+      {/* Toast */}
       <Toaster
         position="bottom-right"
-        containerStyle={{ bottom: "100px" }} // moves it 100px higher from the bottom
+        containerStyle={{ bottom: "100px" }}
         toastOptions={{
           duration: 4000,
           style: {
@@ -114,11 +114,11 @@ const ContactSection = () => {
       />
 
       {/* Header */}
-      <div className="container mx-auto px-2 sm:px-6 relative z-10 text-center mb-10 sm:mb-12">
-        <h1 className="text-3xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-300 mb-4 sm:mb-6 leading-tight">
+      <div className="container mx-auto px-4 text-center mb-10">
+        <h1 className="text-3xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-300 mb-4">
           Let's Connect
         </h1>
-        <p className="text-base sm:text-lg text-muted-foreground max-w-lg sm:max-w-2xl mx-auto px-2">
+        <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
           I'm always open to discussing new projects, creative ideas, or
           opportunities to collaborate. Send me a message!
         </p>
@@ -128,46 +128,40 @@ const ContactSection = () => {
       <div
         id="contact-form"
         ref={formRef}
-        className="w-full max-w-md sm:max-w-2xl bg-background/20 backdrop-blur-lg p-5 sm:p-10 rounded-3xl shadow-2xl flex flex-col gap-4 sm:gap-5 scroll-mt-32"
+        className="w-full max-w-md sm:max-w-2xl bg-background/20 backdrop-blur-lg p-5 sm:p-10 rounded-3xl shadow-2xl flex flex-col gap-4 sm:gap-5"
       >
         <div className="flex flex-col">
-          <label className="mb-1 sm:mb-2 text-white font-semibold text-sm sm:text-base">
-            Full Name
-          </label>
+          <label className="mb-2 text-white font-semibold">Full Name</label>
           <input
             type="text"
             name="name"
             placeholder="John Doe"
             value={formData.name}
             onChange={handleChange}
-            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-500 focus:ring-0 hover:border-purple-500 transition-none text-sm sm:text-base"
+            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-500 focus:ring-0"
           />
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-1 sm:mb-2 text-white font-semibold text-sm sm:text-base">
-            Email Address
-          </label>
+          <label className="mb-2 text-white font-semibold">Email Address</label>
           <input
             type="email"
             name="email"
             placeholder="johndoe@example.com"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-500 focus:ring-0 hover:border-purple-500 transition-none text-sm sm:text-base"
+            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-500 focus:ring-0"
           />
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-1 sm:mb-2 text-white font-semibold text-sm sm:text-base">
-            Message
-          </label>
+          <label className="mb-2 text-white font-semibold">Message</label>
           <textarea
             name="message"
             placeholder="Write your message here..."
             value={formData.message}
             onChange={handleChange}
-            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 focus:border-purple-500 focus:ring-0 hover:border-purple-500 transition-none resize-none h-32 sm:h-48 text-sm sm:text-base"
+            className="w-full p-3 sm:p-4 rounded-xl bg-background/20 text-white placeholder:text-white/70 border-2 border-purple-500 resize-none h-32 sm:h-48 focus:border-purple-500 focus:ring-0"
           />
         </div>
 
